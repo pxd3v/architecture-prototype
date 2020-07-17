@@ -1,9 +1,10 @@
 import { Router } from 'express';
+import usersRouter from '@modules/users/infra/http/routes/users.routes';
+import sessionsRouter from '@modules/users/infra/http/routes/sessions.routes';
 
 const routes = Router();
 
-routes.get('/', (request, response) => {
-    return response.json({message: 'hello world'});
-});
+routes.use('/user', usersRouter);
+routes.use('/session', sessionsRouter);
 
 export default routes;

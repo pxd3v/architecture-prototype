@@ -11,7 +11,8 @@ export default class CreateUsers1594931497071 implements MigrationInterface {
                         name: 'id',
                         type: 'varchar',
                         isPrimary: true,
-                        generationStrategy: 'uuid'
+                        generationStrategy: 'uuid',
+                        default: 'uuid_generate_v4()',
                     },
                     {
                         name: 'name',
@@ -21,13 +22,29 @@ export default class CreateUsers1594931497071 implements MigrationInterface {
                     {
                         name: 'email',
                         type: 'varchar',
+                        isNullable: false,
+                        isUnique: true
+                    },
+                    {
+                        name: 'password',
+                        type: 'varchar',
                         isNullable: false
                     },
                     {
                         name: 'last_login_date',
-                        type: 'timestamp with time zone',
-                        isNullable: false
+                        type: 'timestamp',
+                        isNullable: true
                     },
+                    {
+                        name: 'created_at',
+                        type: 'timestamp',
+                        default: 'now()'
+                    },
+                    {
+                        name: 'updated_at',
+                        type: 'timestamp',
+                        default: 'now()'
+                    }
                 ]
             })
         );
