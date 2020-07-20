@@ -27,7 +27,7 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
     if(err instanceof ValidationError) {
         return response.status(err.statusCode).json({
             status: 'validation error',
-            message: err.message
+            messages: err.messages
         });
     }
 

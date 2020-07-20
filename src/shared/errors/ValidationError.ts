@@ -1,10 +1,10 @@
 class ValidationError {
-    public readonly message: string;
+    public readonly messages: string[];
 
     public readonly statusCode: number;
 
-    constructor(message: string) {
-        this.message = message;
+    constructor(messages: string[]) {
+        this.messages = messages;
         this.statusCode = 400;
     }
 }

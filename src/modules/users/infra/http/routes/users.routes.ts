@@ -4,10 +4,9 @@ import UsersController from '../controllers/UsersController';
 
 const usersRouter = Router();
 const usersController = new UsersController();
-import createUserServiceValidator from '../middlewares/CreateUserServiceValidator';
 
 usersRouter.use(authMiddleware);
 
-usersRouter.post('/', createUserServiceValidator, usersController.create);
+usersRouter.post('/', usersController.create);
 
 export default usersRouter;

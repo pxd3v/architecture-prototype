@@ -1,5 +1,5 @@
 import User from '../infra/typeorm/entities/User';
-import ICreateUserDto from '../dtos/ICreateUserDTO';
+import ICreateUserDto from '../dtos/ICreateUserDto';
 
 export default interface IUsersRepository {
     create(data: ICreateUserDto): Promise<User>;
@@ -7,4 +7,4 @@ export default interface IUsersRepository {
     findById(id: string): Promise<User | undefined>;
     updateLastLoginDate(id: string, date: Date): Promise<Date>;
     save(user: User): Promise<User>;
-};
+}

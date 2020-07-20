@@ -1,15 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import { verify } from 'jsonwebtoken';
-
 import AppError from '@shared/errors/AppError';
-
-interface TokenPayload {
-    iat: number;
-    exp: number;
-    sub: string;
-}
+import UserAuthenticationService from '@shared/infra/services/UserAuthentication/UserAuthenticationService';
 
 const authMiddleware = (request: Request, response: Response, next: NextFunction): void => {
+    const userAuthenticationService = new UserAuthenticationService();
 
     const authHeader = request.headers.authorization;
 
@@ -20,9 +14,7 @@ const authMiddleware = (request: Request, response: Response, next: NextFunction
     const [, token] = authHeader.split(' ');
 
     try {
-        const decodedToken = verify(token, 'segredo');
-
-        const { sub } = decodedToken as TokenPayload;
+        const { sub } = userAuthenticationService.verifyToken(token, 'segredo');
 
         request.user = {
             id: sub
