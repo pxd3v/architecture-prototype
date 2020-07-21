@@ -5,7 +5,8 @@ import AppError from '@shared/errors/AppError';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
 import User from '@modules/users/infra/typeorm/entities/User';
-import IUserAuthenticationService from '@shared/services/UserAuthentication/IUserAuthenticationService';
+import IHashProvider from '@modules/users/providers/HashProvider/models/IHashProvider';
+import JWTAuthenticationService from '@shared/infra/services/JWTAuthenticationService/JWTAuthenticationService';
 
 interface IRequest {
     email: string;
@@ -23,14 +24,16 @@ class AuthenticateUserService {
     constructor(
         @inject('UsersRepository')
         private usersRepository: IUsersRepository,
-        @inject('UserAuthenticationService')
-        private userAuthenticationService: IUserAuthenticationService
+        @inject('HashProvider')
+        private hashProvider: IHashProvider,
+        @inject('JWTAuthenticationService')
+        private jwtAuthenticationService: JWTAuthenticationService
     ){}
     
     public async execute({ email, password }: IRequest): Promise<IResponse> {
         const user = await this.usersRepository.findByEmail(email);
         
-        const passwordMatches = await this.userAuthenticationService.comparePassword(password, user!.password);
+        const passwordMatches = await this.hashProvider.compareHash(password, user!.password);
         
         if(!passwordMatches) {
             throw new AppError('Incorrect email/password combination.', 401);
@@ -38,7 +41,7 @@ class AuthenticateUserService {
 
         const lastLoginDate = await this.usersRepository.updateLastLoginDate(user!.id, new Date());
         
-        const token = this.userAuthenticationService.generateToken({  }, 'segredo', {
+        const token = this.jwtAuthenticationService.generateToken({  }, 'segredo', {
             subject: user!.id,
             expiresIn: '3d'
         });

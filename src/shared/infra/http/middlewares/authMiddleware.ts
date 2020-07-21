@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import AppError from '@shared/errors/AppError';
-import UserAuthenticationService from '@shared/infra/services/UserAuthentication/UserAuthenticationService';
-
+import JWTAuthenticationService from '@shared/infra/services/JWTAuthenticationService/JWTAuthenticationService';
 const authMiddleware = (request: Request, response: Response, next: NextFunction): void => {
-    const userAuthenticationService = new UserAuthenticationService();
+    const jwtAuthenticationService = new JWTAuthenticationService();
 
     const authHeader = request.headers.authorization;
 
@@ -14,7 +13,7 @@ const authMiddleware = (request: Request, response: Response, next: NextFunction
     const [, token] = authHeader.split(' ');
 
     try {
-        const { sub } = userAuthenticationService.verifyToken(token, 'segredo');
+        const { sub } = jwtAuthenticationService.verifyToken(token, 'segredo');
 
         request.user = {
             id: sub

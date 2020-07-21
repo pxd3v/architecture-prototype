@@ -2,16 +2,16 @@ import { injectable, inject } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import IAuthenticateUserDto from '@modules/users/dtos/IAuthenticateUserDto';
-import IFormatValidationService from '@shared/services/FormatValidation/IFormatValidationService';
-import IValidator from '@shared/validation/IValidation';
+import ValidateJsService from '@shared/infra/services/ValidateJsService/ValidateJsService';
+import IValidator from '@shared/models/IValidator';
 
 @injectable()
 class AuthenticateUserServiceValidator implements IValidator<IAuthenticateUserDto>{
     constructor(
         @inject('UsersRepository')
         private usersRepository: IUsersRepository,
-        @inject('FormatValidator')
-        private formatValidator: IFormatValidationService
+        @inject('ValidateJsService')
+        private validateJsService: ValidateJsService
     ){}
 
     public async execute({ email, password}: IAuthenticateUserDto): Promise<void> {
@@ -40,7 +40,7 @@ class AuthenticateUserServiceValidator implements IValidator<IAuthenticateUserDt
             }
         };
         
-        this.formatValidator.validate({ email, password }, schema);
+        this.validateJsService.validate({ email, password }, schema);
     }
 }
 

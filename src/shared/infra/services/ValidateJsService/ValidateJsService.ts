@@ -1,8 +1,7 @@
 import { validate } from 'validate.js';
-import IFormatValidator from '@shared/services/FormatValidation/IFormatValidationService';
 import ValidationError from '@shared/errors/ValidationError';
 
-export default class FormatValidator implements IFormatValidator {
+export default class FormatValidationService {
     public validate(data: any, schema: any): void {
         const result = validate(data, schema);
         if(result){

@@ -1,12 +1,12 @@
 import 'reflect-metadata';
 import CreateUserServiceValidator from '@modules/users/services/CreateUser/CreateUserServiceValidator';
-import FormatValidationService from '@shared/infra/services/FormatValidation/FormatValidationService';
+import ValidateJsService from '@shared/infra/services/ValidateJsService/ValidateJsService';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 
 describe('CreateUser', () => {
     it('should not be able to create a new user with invalid password format', async () => {
         const fakeUsersRepository = new FakeUsersRepository();
-        const formatValidationService = new FormatValidationService();
+        const formatValidationService = new ValidateJsService();
         const createUserServiceValidator = new CreateUserServiceValidator(fakeUsersRepository, formatValidationService);
 
         expect.assertions(1);
@@ -28,7 +28,7 @@ describe('CreateUser', () => {
 
     it('should not be able to create a new user with invalid email format', async () => {
         const fakeUsersRepository = new FakeUsersRepository();
-        const formatValidationService = new FormatValidationService();
+        const formatValidationService = new ValidateJsService();
         const createUserServiceValidator = new CreateUserServiceValidator(fakeUsersRepository, formatValidationService);
         
         expect.assertions(1);
@@ -51,7 +51,7 @@ describe('CreateUser', () => {
 
     it('should not be able to create two users with the same email', async () => {
         const fakeUsersRepository = new FakeUsersRepository();
-        const formatValidationService = new FormatValidationService();
+        const formatValidationService = new ValidateJsService();
         const createUserServiceValidator = new CreateUserServiceValidator(fakeUsersRepository, formatValidationService);
         
         fakeUsersRepository.create({name: 'pedro', email: 'pedro@lett.digital', password: 'Pedro1234@'});
@@ -74,7 +74,7 @@ describe('CreateUser', () => {
 
     it('should be able to create user with the an unused email', async () => {
         const fakeUsersRepository = new FakeUsersRepository();
-        const formatValidationService = new FormatValidationService();
+        const formatValidationService = new ValidateJsService();
         const createUserServiceValidator = new CreateUserServiceValidator(fakeUsersRepository, formatValidationService);
         
         try {
