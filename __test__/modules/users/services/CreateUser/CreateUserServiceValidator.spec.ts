@@ -3,7 +3,7 @@ import CreateUserServiceValidator from '@modules/users/services/CreateUser/Creat
 import ValidateJsService from '@shared/infra/services/ValidateJsService/ValidateJsService';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 
-describe('CreateUser', () => {
+describe('CreateUserValidator', () => {
     it('should not be able to create a new user with invalid password format', async () => {
         const fakeUsersRepository = new FakeUsersRepository();
         const formatValidationService = new ValidateJsService();

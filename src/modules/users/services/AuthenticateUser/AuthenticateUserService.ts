@@ -13,7 +13,7 @@ interface IRequest {
     password: string;
 }
 
-interface IResponse {
+interface IUserAndToken {
     user: User,
     token: string;
 }
@@ -30,7 +30,7 @@ class AuthenticateUserService {
         private jwtAuthenticationService: JWTAuthenticationService
     ){}
     
-    public async execute({ email, password }: IRequest): Promise<IResponse> {
+    public async execute({ email, password }: IRequest): Promise<IUserAndToken> {
         const user = await this.usersRepository.findByEmail(email);
         
         const passwordMatches = await this.hashProvider.compareHash(password, user!.password);
